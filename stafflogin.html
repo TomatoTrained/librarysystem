@@ -74,8 +74,8 @@
             }
 
             // Query Firestore for the librarian's credentials
-            const librariansRef = collection(db, 'librarians'); // Assuming there is a 'librarians' collection
-            const q = query(librariansRef, where('username', '==', username), where('password', '==', password));
+            const librarianRef = collection(db, 'librarian'); // Assuming there is a 'librarians' collection
+            const q = query(librarianRef, where('username', '==', username), where('password', '==', password));
 
             const querySnapshot = await getDocs(q);
             if (!querySnapshot.empty) {
