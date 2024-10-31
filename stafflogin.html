@@ -32,35 +32,62 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-<div class="login-container">
-    <h3>Login</h3>
-    <input type="text" id="username" placeholder="Username" class="username">
-    <input type="password" id="password" placeholder="Password" class="password">
-    <p id="message"></p>
-    <button onclick="stafflogin()" class="btn-stafflogin">Login</button>
-    <a href = "staffreset.html" class="rst-link">Forgot Password</a>
-</div>
-<script>
-    function stafflogin() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const message = document.getElementById('message');
+    <div class="login-container">
+        <h3>Login</h3>
+        <input type="text" id="username" placeholder="Username" class="username" required>
+        <input type="password" id="password" placeholder="Password" class="password" required>
+        <p id="message"></p>
+        <button onclick="staffLogin()" class="btn-stafflogin">Login</button>
+        <a href="staffreset.html" class="rst-link">Forgot Password</a>
+    </div>
+    
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-      if (!username || !password) {
-          message.textContent = 'Please fill in all fields.';
-          message.style.color = 'red';
-          return;
-      }
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcFfB0kxqvhNA0ydCgXAW2S0QGrkY50vU",
+            authDomain: "librarysystem-7b7ce.firebaseapp.com",
+            projectId: "librarysystem-7b7ce",
+            storageBucket: "librarysystem-7b7ce.appspot.com",
+            messagingSenderId: "654974123036",
+            appId: "1:654974123036:web:f8c62da9845c9445a933d9",
+            measurementId: "G-JQYNVSBTSJ"
+        };
 
-      if (username === 'keith' && password === 'tsikai') {
-          message.textContent = 'Login successful!';
-          message.style.color = 'green';
-          window.location.href=("Homepage.html")
-      } else {
-          message.textContent = 'Invalid login. Please try again.';
-          message.style.color = 'red';
-      }
-  }
-</script>
+        // Initialize Firebase and Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Staff login function
+        window.staffLogin = async function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+
+            if (!username || !password) {
+                message.textContent = 'Please fill in all fields.';
+                message.style.color = 'red';
+                return;
+            }
+
+            // Query Firestore for the librarian's credentials
+            const librariansRef = collection(db, 'librarians'); // Assuming there is a 'librarians' collection
+            const q = query(librariansRef, where('username', '==', username), where('password', '==', password));
+
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                message.textContent = 'Login successful!';
+                message.style.color = 'green';
+                // Redirect to the homepage
+                window.location.href = "Homepage.html";
+            } else {
+                message.textContent = 'Invalid login. Please try again.';
+                message.style.color = 'red';
+            }
+        }
+    </script>
 </body>
 </html>
