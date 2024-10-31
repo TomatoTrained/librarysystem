@@ -40,6 +40,9 @@
             const passwordInput = document.getElementById("password");
             const password = passwordInput.value;
 
+            console.log('Registration Number:', regnumber);
+            console.log('Password:', password);
+
             if (regnumber === '' || password === '') {
                 alert("Fill in Empty Spaces");
                 return false;
@@ -55,15 +58,22 @@
             const q = query(studentsRef, where('registration-number', '==', regnumber), where('password', '==', password));
 
             const querySnapshot = await getDocs(q);
+            console.log('Query Snapshot:', querySnapshot);
+
             if (!querySnapshot.empty) {
                 alert("Login successful!");
-                window.location.href = "homepage.html";
+                window.location.href = "homepage.html"; 
                 return true;
             } else {
                 alert("Invalid Registration Number or Password!");
                 return false;
             }
         };
+
+        document.getElementById("StudentLogin").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            validateStudentLogIn(); // Call the validation function
+        });
     </script>
 </head>
 <body>
@@ -71,7 +81,7 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form id="StudentLogin" onsubmit="return validateStudentLogIn()">
+    <form id="StudentLogin">
         <h3 class="h3">Login Here</h3>
         <label for="regnumber">Registration Number</label>
         <input type="text" id="regnumber" name="regnumber" placeholder="Registration Number" required oninput="validateRegnumber()">
