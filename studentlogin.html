@@ -1,50 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
-    <link rel="stylesheet" href="style.css">
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Student Login</title>  
+    <link rel="stylesheet" href="style.css">  
 
-    <script>
-        function validateStudentLogIn() {
-        const regnumberInput = document.getElementById("regnumber");
-        const regnumber = regnumberInput.value;
-        const passwordInput = document.getElementById("password")
-        const password = passwordInput.value;
+    <script type="module">  
+        // Import the functions you need from Firebase SDKs  
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";  
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";  
 
-        if (regnumber === '' || password === '') {
-          alert("Fill in Empty Spaces");
-          return false;
-      }
+        // Your web app's Firebase configuration  
+        const firebaseConfig = {  
+            apiKey: "AIzaSyCcFfB0kxqvhNA0ydCgXAW2S0QGrkY50vU",  
+            authDomain: "librarysystem-7b7ce.firebaseapp.com",  
+            projectId: "librarysystem-7b7ce",  
+            storageBucket: "librarysystem-7b7ce.appspot.com",  
+            messagingSenderId: "654974123036",  
+            appId: "1:654974123036:web:f8c62da9845c9445a933d9",  
+            measurementId: "G-JQYNVSBTSJ"  
+        };  
 
-        if (regnumber.length < 8 || regnumber.length > 9) {
-          regnumberInput.classList.add("invalid");
-          alert("Invalid Credentials!!!");
-          return false;
-        } else {
-          regnumberInput.classList.remove("Invalid Registration Number!");
-          return true;
-        }
-    }
-    </script>
-</head>
-<body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    <form id="StudentLogin" onsubmit="return validateStudentLogIn()">
-        <h3 class="h3">Login Here</h3>
-        <label for="regnumber">Registration Number</label>
-        <input type="text" id="regnumber" name="regnumber" placeholder="Registration Number" required oninput="validateRegnumber()">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Password" required>
-        <div class="commands">
+        // Initialize Firebase  
+        const app = initializeApp(firebaseConfig);  
+        const db = getFirestore(app);  
 
-            <button type="submit" class="btn-login">Log In</button><br>
-            <a href="reset.html" class="rst-link">Forgot password</a>
-        </div>
-    </form>
-</body>
+        window.validateStudentLogIn = async function() {  
+            const regnumberInput = document.getElementById("regnumber");  
+            const regnumber = regnumberInput.value;  
+            const passwordInput = document.getElementById("password");  
+            const password = passwordInput.value;  
+
+            if (regnumber === '' || password === '') {  
+                alert("Fill in Empty Spaces");  
+                return false;  
+            }  
+
+            if (regnumber.length < 8 || regnumber.length > 9) {  
+                regnumberInput.classList.add("invalid");  
+                alert("Invalid Registration Number! It should be 8 or 9 characters.");  
+                return false;  
+            }  
+
+            // Query Firestore to validate credentials  
+            const studentsRef = collection(db, 'students');  
+            const q = query(studentsRef, where('regNumber', '==', regnumber), where('password', '==', password));  
+
+            const querySnapshot = await getDocs(q);  
+            if (!querySnapshot.empty) {  
+                // Valid credentials  
+                alert("Login successful!");  
+                // Redirect to another page or perform further actions here  
+                return true;  
+            } else {  
+                // Invalid credentials  
+                alert("Invalid Registration Number or Password!");  
+                return false;  
+            }  
+        }  
+    </script>  
+</head>  
+<body>  
+    <div class="background">  
+        <div class="shape"></div>  
+        <div class="shape"></div>  
+    </div>  
+    <form id="StudentLogin" onsubmit="return validateStudentLogIn()">  
+        <h3 class="h3">Login Here</h3>  
+        <label for="regnumber">Registration Number</label>  
+        <input type="text" id="regnumber" name="regnumber" placeholder="Registration Number" required oninput="validateRegnumber()">  
+        <label for="password">Password</label>  
+        <input type="password" id="password" name="password" placeholder="Password" required>  
+        <div class="commands">  
+            <button type="submit" class="btn-login">Log In</button><br>  
+            <a href="reset.html" class="rst-link">Forgot password</a>  
+        </div>  
+    </form>  
+</body>  
 </html>
