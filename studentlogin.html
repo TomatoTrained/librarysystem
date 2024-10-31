@@ -1,38 +1,32 @@
 <!DOCTYPE html>  
 <html lang="en">  
-<head> <link rel="stylesheet" href="styles.css">
-    
+<head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Student Login</title>  
+    <link rel="stylesheet" href="style.css">  
+
     <script type="module">  
-        // Your SDK import statements  
+        // Import the functions you need from Firebase SDKs  
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";  
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";  
 
+        // Your web app's Firebase configuration  
         const firebaseConfig = {  
-            // Your configuration here 
-              // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCcFfB0kxqvhNA0ydCgXAW2S0QGrkY50vU",
-    authDomain: "librarysystem-7b7ce.firebaseapp.com",
-    projectId: "librarysystem-7b7ce",
-    storageBucket: "librarysystem-7b7ce.appspot.com",
-    messagingSenderId: "654974123036",
-    appId: "1:654974123036:web:f8c62da9845c9445a933d9",
-    measurementId: "G-JQYNVSBTSJ"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
+            apiKey: "AIzaSyCcFfB0kxqvhNA0ydCgXAW2S0QGrkY50vU",  
+            authDomain: "librarysystem-7b7ce.firebaseapp.com",  
+            projectId: "librarysystem-7b7ce",  
+            storageBucket: "librarysystem-7b7ce.appspot.com",  
+            messagingSenderId: "654974123036",  
+            appId: "1:654974123036:web:f8c62da9845c9445a933d9",  
+            measurementId: "G-JQYNVSBTSJ"  
         };  
 
+        // Initialize Firebase  
         const app = initializeApp(firebaseConfig);  
         const db = getFirestore(app);  
 
+        // Validate the registration number input  
         window.validateRegnumber = function() {  
             const regnumberInput = document.getElementById("regnumber");  
             const regnumber = regnumberInput.value;  
@@ -44,21 +38,18 @@
             }  
         };  
 
-        window.validateStudentLogIn = async function(event) {  
-            event.preventDefault(); // Prevent the default form submission  
-
+        // Validate student login credentials  
+        window.validateStudentLogIn = async function() {  
             const regnumberInput = document.getElementById("regnumber");  
             const regnumber = regnumberInput.value;  
             const passwordInput = document.getElementById("password");  
             const password = passwordInput.value;  
 
-            // Validate empty inputs  
             if (regnumber === '' || password === '') {  
                 alert("Fill in Empty Spaces");  
                 return false;  
             }  
 
-            // Validate regnumber length  
             if (regnumber.length < 8 || regnumber.length > 9) {  
                 regnumberInput.classList.add("invalid");  
                 alert("Invalid Registration Number! It should be 8 or 9 characters.");  
@@ -75,23 +66,29 @@
                 alert("Login successful!");  
                 // Redirect to another page  
                 window.location.href = "homepage.html";   
+                return true;  
             } else {  
                 // Invalid credentials  
                 alert("Invalid Registration Number or Password!");  
+                return false;  
             }  
-            return false; // Return false to indicate the form should not submit  
         };  
     </script>  
 </head>  
 <body>  
-    <form id="StudentLogin" onsubmit="return validateStudentLogIn(event);">  
+    <div class="background">  
+        <div class="shape"></div>  
+        <div class="shape"></div>  
+    </div>  
+    <form id="StudentLogin" onsubmit="return validateStudentLogIn()">  
+        <h3 class="h3">Login Here</h3>  
         <label for="regnumber">Registration Number</label>  
         <input type="text" id="regnumber" name="regnumber" placeholder="Registration Number" required oninput="validateRegnumber()">  
-        
         <label for="password">Password</label>  
         <input type="password" id="password" name="password" placeholder="Password" required>  
-
-        <button type="submit" class="btn-login">Log In</button>  
+        <div class="commands">  
+            <button type="submit" class="btn-login">Log In</button>
+        </div>  
     </form>  
 </body>  
 </html>
