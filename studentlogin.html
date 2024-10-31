@@ -26,6 +26,19 @@
         const app = initializeApp(firebaseConfig);  
         const db = getFirestore(app);  
 
+        // Validate the registration number input  
+        window.validateRegnumber = function() {  
+            const regnumberInput = document.getElementById("regnumber");  
+            const regnumber = regnumberInput.value;  
+
+            if (regnumber.length < 8 || regnumber.length > 9) {  
+                regnumberInput.classList.add("invalid");  
+            } else {  
+                regnumberInput.classList.remove("invalid");  
+            }  
+        };  
+
+        // Validate student login credentials  
         window.validateStudentLogIn = async function() {  
             const regnumberInput = document.getElementById("regnumber");  
             const regnumber = regnumberInput.value;  
@@ -51,15 +64,15 @@
             if (!querySnapshot.empty) {  
                 // Valid credentials  
                 alert("Login successful!");  
-                // Redirect to another page or perform further actions here
-                window.location.href = "homepage.html"; 
+                // Redirect to another page  
+                window.location.href = "homepage.html";   
                 return true;  
             } else {  
                 // Invalid credentials  
                 alert("Invalid Registration Number or Password!");  
                 return false;  
             }  
-        }  
+        };  
     </script>  
 </head>  
 <body>  
