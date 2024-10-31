@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSU | LSBS | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="lib-header">
+        <h2>Library Seat Allocation & Booking System</h2>
+        <nav class="lib-nav">
+            <a href="homepage.html">Homepage</a>
+            <a href="about.html">About Us</a>
+            <a href="Contact.html">Contact Us</a>
+            <div class="lib-dropdown">
+                <button class="lib-dropdown-btn"><img src="user.png" alt="user icon" width="26" height="26"></button>
+                <div class="lib-dropdown-content">
+                    <a href="mybookings.html">Active Bookings</a>
+                    <a href="studentdb.html">Profile</a>
+                    <a href="loginas.html">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="lib-container">
+        <div class="library" onclick="window.location.href='maincam.html'">
+            <img src="mainlib.jpg" alt="Midlands State University" class="library-img">
+            <div class="text-container">
+            <h2>Main Campus Library</h2>
+            <p class="seats">5 empty seats</p>
+            <p class="status"></p> <!-- Placeholder for status -->
+        </div>
+        </div>
+        <div class="library" onclick="window.location.href='batanai.html'">
+            <img src="batanai.jpg" alt="Midlands State University" class="library-img">
+            <div class="text-container">
+            <h2>Batanai Campus Library</h2>
+            <p class="seats">3 empty seats</p>
+            <p class="status"></p> <!-- Placeholder for status -->
+        </div>
+        </div>
+        <div class="library" onclick="window.location.href='gsbl.html'">
+            <img src="telone.jpg" alt="Midlands State University" class="library-img">
+            <div class="text-container">
+            <h2>GSBL Campus Library</h2>
+            <p class="seats">7 empty seats</p>
+            <p class="status"></p> <!-- Placeholder for status -->
+        </div>
+        </div>
+    </div>
+    <script>
+        const libraries = document.querySelectorAll('.library');
+
+        function updateLibraryStatus() {
+            const currentHour = new Date().getHours();
+            const statusText = currentHour >= 8 && currentHour < 24 ? "Open until 12am" : "Closed Until 8am";
+
+            libraries.forEach(library => {
+                const statusElement = library.querySelector('.status');
+                statusElement.textContent = statusText;
+            });
+        }
+
+        // Call the function to update status on page load
+        updateLibraryStatus();
+    </script>
+</body>
+</html>
