@@ -10,7 +10,23 @@
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";  
 
         const firebaseConfig = {  
-            // Your configuration here  
+            // Your configuration here 
+              // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCcFfB0kxqvhNA0ydCgXAW2S0QGrkY50vU",
+    authDomain: "librarysystem-7b7ce.firebaseapp.com",
+    projectId: "librarysystem-7b7ce",
+    storageBucket: "librarysystem-7b7ce.appspot.com",
+    messagingSenderId: "654974123036",
+    appId: "1:654974123036:web:f8c62da9845c9445a933d9",
+    measurementId: "G-JQYNVSBTSJ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
         };  
 
         const app = initializeApp(firebaseConfig);  
