@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Seat - Library Booking System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="datetime-local"],
+        input[type="number"],
+        input[type="submit"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header class="lib-header">
+        <h2 class="h27">Library Seat Allocation & Booking System</h2>
+        <nav class="lib-nav">
+            <a href="homepage.html">Homepage</a>
+            <a href="about.html">About Us</a>
+            <a href="Contact.html">Contact Us</a>
+            <div class="lib-dropdown">
+                <button class="lib-dropdown-btn"><img src="user.png" alt="user icon" width="26" height="26"></button>
+                <div class="lib-dropdown-content">
+                    <a href="mybookings.html">Active Bookings</a>
+                    <a href="studentdb.html">Profile</a>
+                    <a href="loginas.html">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Book a Seat</h2>
+        <form id="booking-form">
+            <label for="booking-time">Select Study Session Time:</label>
+            <input type="datetime-local" id="booking-time" required>
+
+            <label for="number-of-seats">Number of Seats (Max 1):</label>
+            <input type="number" id="number-of-seats" min="1" max="1" value="1" readonly>
+
+            <input type="submit" value="Book Now">
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        const bookings = [];
+        const bookingWindow = 30 * 60 * 1000; // 30 minutes in milliseconds
+        const cancellationWindow = 15 * 60 * 1000; // 15 minutes in milliseconds
+
+        document.getElementById('booking-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const bookingTime = new Date(document.getElementById('booking-time').value);
+            const seatsRequested = parseInt(document.getElementById('number-of-seats').value);
+            const currentTime = new Date();
+
+            // Check if the booking time is in the future
+            if (bookingTime <= currentTime) {
+                displayMessage("You can only book a session starting 30 minutes from now.");
+                return;
+            }
+
+            // Check if the booking is within the allowed hours
+            const bookingHour = bookingTime.getHours();
+            if (bookingHour < 8 || bookingHour >= 23) {
+                displayMessage("Bookings are not allowed between 11:30 PM and 8:00 AM.");
+                return;
+            }
+
+            // Check if the booking time is at least 30 minutes in the future
+            if (bookingTime - currentTime < bookingWindow) {
+                displayMessage("You can only book a seat at least 30 minutes in advance.");
+                return;
+            }
+
+            // Restrict to 1 seat only
+            if (seatsRequested > 1) {
+                displayMessage("You can only book one seat.");
+                return;
+            }
+
+            const booking = {
+                time: bookingTime,
+                seats: seatsRequested,
+                status: 'Booked',
+                feeCharged: false,
+                createdAt: currentTime
+            };
+
+            bookings.push(booking);
+            displayMessage("Booking successful!");
+
+            // Set a timeout to release the seat and charge fee if not cancelled
+            setTimeout(() => releaseSeat(booking), cancellationWindow);
+        });
+
+        function releaseSeat(booking) {
+            const currentTime = new Date();
+            if (booking.status === 'Booked' && (currentTime - booking.createdAt) > cancellationWindow) {
+                booking.status = 'Released';
+                if (!booking.feeCharged) {
+                    booking.feeCharged = true; // Charge fee logic here
+                    console.log("A fee of $1 has been charged for the booking at " + booking.time);
+                }
+                displayMessage("The seat has been released for booking.");
+            }
+        }
+
+        function displayMessage(msg) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            setTimeout(() => { messageDiv.textContent = ''; }, 5000);
+        }
+    </script>
+</body>
+</html>

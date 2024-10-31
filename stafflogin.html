@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        input {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #eba336;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+<div class="login-container">
+    <h3>Login</h3>
+    <input type="text" id="username" placeholder="Username" class="username">
+    <input type="password" id="password" placeholder="Password" class="password">
+    <p id="message"></p>
+    <button onclick="stafflogin()" class="btn-stafflogin">Login</button>
+    <a href = "staffreset.html" class="rst-link">Forgot Password</a>
+</div>
+<script>
+    function stafflogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const message = document.getElementById('message');
+
+      if (!username || !password) {
+          message.textContent = 'Please fill in all fields.';
+          message.style.color = 'red';
+          return;
+      }
+
+      if (username === 'keith' && password === 'tsikai') {
+          message.textContent = 'Login successful!';
+          message.style.color = 'green';
+          window.location.href=("Homepage.html")
+      } else {
+          message.textContent = 'Invalid login. Please try again.';
+          message.style.color = 'red';
+      }
+  }
+</script>
+</body>
+</html>

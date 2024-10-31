@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | LSABS | MSU</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: inherit;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .h26, h3 {
+            margin: 0 0 20px;
+        }
+        .stud-details, .bookings {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid yellow;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <header class="lib-header">
+        <h2>Library Seat Allocation & Booking System</h2>
+        <nav class="lib-nav">
+            <a href="homepage.html">Homepage</a>
+            <a href="about.html">About Us</a>
+            <a href="Contact.html">Contact Us</a>
+            <div class="lib-dropdown">
+                <button class="lib-dropdown-btn"><img src="user.png" alt="user icon" width="26" height="26"></button>
+                <div class="lib-dropdown-content">
+                    <a href="mybookings.html">Active Bookings</a>
+                    <a href="studentdb.html">Profile</a>
+                    <a href="loginas.html">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2 class="h26">Student Dashboard</h2>
+        <div class="stud-details">
+            <h3>Student Details</h3>
+            <p><strong>Name:</strong> Tsikai</p>
+            <p><strong>Registration Number:</strong> R232151V</p>
+            <p><strong>Program Degree:</strong> Bachelor of Science</p>
+            <p><strong>Program Code:</strong> BSc2023</p>
+            <p><strong>Department:</strong> Computer Science</p>
+            <p><strong>Mode of Entry:</strong> Direct Entry</p>
+            <p><strong>Level:</strong> 200</p>
+        </div>
+
+        <div class="bookings">
+            <h3>Active Bookings</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Library</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Seats</th>
+                        <th>Status</th>
+                        <th>Penalty Fee</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-table-body">
+                    <!-- Active bookings will be populated here using JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Sample data to simulate user bookings and penalty fees
+        const activeBookings = [
+            {
+                library: "Central Library",
+                date: "2024-10-15",
+                time: "10:00 AM - 12:00 PM",
+                seats: 1,
+                status: "Confirmed",
+                penaltyFee: 0 // No penalty fee applied
+            },
+            {
+                library: "Westside Library",
+                date: "2024-10-20",
+                time: "1:00 PM - 3:00 PM",
+                seats: 1,
+                status: "Cancelled",
+                penaltyFee: 1 // Fee charged due to cancellation
+            }
+        ];
+
+        // Function to display active bookings in the table
+        function displayBookings() {
+            const tableBody = document.getElementById('bookings-table-body');
+            tableBody.innerHTML = '';
+
+            activeBookings.forEach((booking) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.library}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.time}</td>
+                    <td>${booking.seats}</td>
+                    <td>${booking.status}</td>
+                    <td>$${booking.penaltyFee}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Initial display of bookings
+        displayBookings();
+    </script>
+</body>
+</html>
