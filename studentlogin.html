@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Student Login</title>  
     <link rel="stylesheet" href="style.css">  
-
     <script type="module">  
-        // Import the functions you need from Firebase SDKs  
+        // Import the necessary Firebase SDKs  
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";  
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";  
 
@@ -39,7 +38,9 @@
         };  
 
         // Validate student login credentials  
-        window.validateStudentLogIn = async function() {  
+        window.validateStudentLogIn = async function(event) {  
+            event.preventDefault(); // Prevent the default form submission  
+
             const regnumberInput = document.getElementById("regnumber");  
             const regnumber = regnumberInput.value;  
             const passwordInput = document.getElementById("password");  
@@ -73,7 +74,7 @@
                 return false;  
             }  
         };  
-    </script>  
+    </script>
 </head>  
 <body>  
     <div class="background">  
