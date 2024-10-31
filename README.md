@@ -28,7 +28,7 @@
     <h1>Library Booking System</h1>
     <a href="homepage.html ">Seat Availability and Booking System</a>
   </body>
-  <footer><p>&copy;2024 Seat Availability and Booking Sytem</p> </footer>
+  <footer><p>&copy;2024 All Rights Reserved</p> </footer>
 </html>
 
 
